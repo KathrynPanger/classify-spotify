@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Machine Learning Spotify Genres</title>
+  <title>Genre Classification using Machine Learning</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
@@ -36,15 +36,14 @@
 
       <div class="row justify-content-center">
         <div class="col-xl-9 d-flex align-items-center justify-content-between">
-          <h1 class="logo"><a href="index.html">Machine Learning<br>Spotify Genres</a></h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+          <!-- <h1 class="logo"><a href="index.html">Machine Learning<br>Spotify Genres</a></h1> -->
+          <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
 
           <nav class="nav-menu d-none d-lg-block">
             <ul>
               <li class="active"><a href="index.html">Home</a></li>
-              <li><a href="#about">Brief</a></li>
-              <li><a href="#services">Spotify API Call</a></li>
+              <li><a href="#brief">Brief</a></li>
+              <li><a href="#spotify">Spotify API Call</a></li>
               <li><a href="#portfolio">Data Transformation</a></li>
               <li><a href="#pricing">Machine Learning</a></li>
               <li class="drop-down"><a href="">Drop Down</a>
@@ -69,7 +68,7 @@
             </ul>
           </nav><!-- .nav-menu -->
 
-          <a href="#about" class="get-started-btn scrollto">Get Started</a>
+          <a href="https://github.com/KathrynPanger/classify-spotify" class="get-started-btn scrollto">Github Repo</a>
         </div>
       </div>
 
@@ -80,10 +79,10 @@
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-xl-8">
-          <h1>Machine Learning: <br>Genre Classification</h1>
+        <div class="typewriter">
+          <h1>Machine Learning: Genre Classification</h1>
           <h2>A project to build a 'Trained Classifier' to identify a song's genre</h2>
-          <a href="https://www.youtube.com/watch?v=571BuZeeQjE" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a>
+          <!-- <a href="https://www.youtube.com/watch?v=571BuZeeQjE" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a> -->
         </div>
       </div>
     </div>
@@ -92,101 +91,32 @@
   <main id="main">
 
     <!-- ======= About Us Section ======= -->
-    <section id="about" class="about">
+    <section id="brief" class="about">
       <div class="container">
 
         <div class="section-title">
           <h2>Brief</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>We all know that musical genres are a way to tag and identify different types of music. But what most people don't know, is that basic genres have key defining features, that help us to identify them - and so the team's project idea was born...<br><br>The team's objective
+            was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Blues,
+            Classical, Country, Heavy Metal, Jazz, Pop, Reggae, Rock, Disco, Hip-Hop</b> </p>
         </div>
 
         <div class="row content">
           <div class="col-lg-6">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
+              The team broke down the process of creating and training the Trained Classifier into the following high-level steps:<br><br>
             </p>
             <ul>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              <li><i class="ri-spotify-fill"></i> <b>Spotify API Call</b> - utilizing the 'spotipy' library to call Spotify's API in order to pull track information data (inc. URLs to audio clips) for the musical genres in-scope.<br><br><br></li>
+              <li><i class="ri-merge-cells-horizontal"></i> <b>Data Transformation</b> - transformating the API collected data, prior to data pre-processing.<br><br><br></li>
+              <li><i class="ri-voiceprint-fill"></i> <b>Pre-processing of data using Librosa</b> - downloading and extracting each audio clip's 6 key audio class features, before saving in a DataFrame, ready for machine learning.</b><br><br><br> </li>
+              <li><i class="ri-eye-2-line"></i> <b>Machine learning using sklearn</b> - harnessing the power of sklearn to train our Trained Classifier.</b><br><br><br> </li>
+              <li><i class="ri-bug-line"></i> <b>Testing</b> - finally a testing regime will let us analize weather the Trained Classifier.</b><br><br></li>
             </ul>
           </div>
-          <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <a href="#" class="btn-learn-more">Learn More</a>
-          </div>
-        </div>
+          <div class="image col-lg-6 pt-4 pt-lg-0" style='background-image: url("assets/img/flow_chart.gif");'></div>
 
-      </div>
     </section><!-- End About Us Section -->
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Spotify API Call</h2>
-          <p>This is where we can decribe how we used Spotify / Spotipy to make API calls</p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4><a href="">Lorem Ipsum</a></h4>
-              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href="">Sed ut perspiciatis</a></h4>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4><a href="">Magni Dolores</a></h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-world"></i></div>
-              <h4><a href="">Nemo Enim</a></h4>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-slideshow"></i></div>
-              <h4><a href="">Dele cardo</a></h4>
-              <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-arch"></i></div>
-              <h4><a href="">Divera don</a></h4>
-              <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Services Section -->
 
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
@@ -206,8 +136,12 @@
     </section><!-- End Cta Section -->
 
     <!-- ======= Features Section ======= -->
-    <section id="features" class="features">
+    <section id="spotify" class="features">
       <div class="container">
+        <div class="section-title">
+          <h2>Spotify API Call</h2>
+          <p>This is where we can decribe how we used Spotify / Spotipy to make API calls</p>
+        </div>
 
         <div class="row">
           <div class="col-lg-6 order-2 order-lg-1">
@@ -338,7 +272,7 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Portfolio</h2>
+          <h2></h2>
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
