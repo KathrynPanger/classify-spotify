@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Machine Learning Spotify Genres</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link rel="icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/icofont/icofont.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/boxicons/css/boxicons.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/remixicon/remixicon.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/venobox/venobox.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='vendor/owl.carousel/assets/owl.carousel.min.css') }}">
+
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+  <noscript><link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/noscript.css') }}"></noscript>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container-fluid">
+
+      <div class="row justify-content-center">
+        <div class="col-xl-9 d-flex align-items-center justify-content-between">
+          <a href="index.html" class="logo"><img src="{{ url_for('static',filename='images/logo.png') }}" alt="" class="img-fluid"></a>
+
+          <nav class="nav-menu d-none d-lg-block">
+            <ul>
+              <li class="active"><a href="index.html">Home</a></li>
+              <li><a href="#about">Brief</a></li>
+              <li><a href="#services">Spotify API Call</a></li>
+              <li><a href="#portfolio">Data Transformation</a></li>
+              <li><a href="#pricing">Machine Learning</a></li>
+              <li class="drop-down"><a href="">Drop Down</a>
+                <ul>
+                  <li><a href="#">Drop Down 1</a></li>
+                  <li class="drop-down"><a href="#">Deep Drop Down</a>
+                    <ul>
+                      <li><a href="#">Deep Drop Down 1</a></li>
+                      <li><a href="#">Deep Drop Down 2</a></li>
+                      <li><a href="#">Deep Drop Down 3</a></li>
+                      <li><a href="#">Deep Drop Down 4</a></li>
+                      <li><a href="#">Deep Drop Down 5</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Drop Down 2</a></li>
+                  <li><a href="#">Drop Down 3</a></li>
+                  <li><a href="#">Drop Down 4</a></li>
+                </ul>
+              </li>
+              <li><a href="#contact">Contact</a></li>
+
+            </ul>
+          </nav><!-- .nav-menu -->
+
+          <a href="#about" class="get-started-btn scrollto">Get Started</a>
+        </div>
+      </div>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex flex-column justify-content-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="typewriter">
+          <h1>Machine Learning: Genre Classification</h1>
+          <h2>A project to build a 'Trained Classifier' to identify a song's genre</h2>
+          <!-- <a href="https://www.youtube.com/watch?v=571BuZeeQjE" class="venobox play-btn mb-4" data-vbtype="video" data-autoplay="true"></a> -->
+        </div>
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Brief</h2>
+          <p>We all know that musical genres are a way to tag and identify different types of music. But what most people don't know, is that basic genres have key defining features, that help us to identify them - and so the team's project idea was born...<br><br>The team's objective
+            was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Blues,
+            Classical, Country, Heavy Metal, Jazz, Pop, Reggae, Rock, Disco, Hip-Hop</b> </p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p>
+              The team broke down the process of creating and training the Trained Classifier into the following high-level steps:<br><br>
+            </p>
+            <ul>
+              <li><i class="ri-spotify-fill"></i> <b>Spotify API Call</b> - utilizing the 'spotipy' library to call Spotify's API in order to pull track information data (inc. URLs to audio clips) for the musical genres in-scope.<br><br><br></li>
+              <li><i class="ri-merge-cells-horizontal"></i> <b>Data Transformation</b> - transformating the API collected data, prior to data pre-processing.<br><br><br></li>
+              <li><i class="ri-voiceprint-fill"></i> <b>Pre-processing of data using Librosa</b> - downloading and extracting each audio clip's 6 key audio class features, before saving in a DataFrame, ready for machine learning.</b><br><br><br> </li>
+              <li><i class="ri-eye-2-line"></i> <b>Machine learning using sklearn</b> - harnessing the power of sklearn to train our Trained Classifier.</b><br><br><br> </li>
+              <li><i class="ri-eye-2-line"></i> <b>Testing</b> - finally a testing regime will let us analize weather the Trained Classifier.</b><br><br></li>
+            </ul>
+          </div>
+          <div class="image col-lg-6 pt-4 pt-lg-0 brief-gif"></div>
+    </section><!-- End About Us Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Spotify API Call</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href="">Lorem Ipsum</a></h4>
+              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">Sed ut perspiciatis</a></h4>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href="">Magni Dolores</a></h4>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4><a href="">Nemo Enim</a></h4>
+              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-slideshow"></i></div>
+              <h4><a href="">Dele cardo</a></h4>
+              <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-arch"></i></div>
+              <h4><a href="">Divera don</a></h4>
+              <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-9 text-center text-lg-left">
+            <h3>Data Transformation</h3>
+            <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="col-lg-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="#">Call To Action</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6 order-2 order-lg-1">
+            <div class="icon-box mt-5 mt-lg-0">
+              <i class="bx bx-receipt"></i>
+              <h4>Est labore ad</h4>
+              <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-cube-alt"></i>
+              <h4>Harum esse qui</h4>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-images"></i>
+              <h4>Aut occaecati</h4>
+              <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-shield"></i>
+              <h4>Beatae veritatis</h4>
+              <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p>
+            </div>
+          </div>
+          <div class="image col-lg-6 order-1 order-lg-2" style='background-image: url("../static/img/features.jpg");'></div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+      <div class="container">
+
+        <div class="row no-gutters clients-wrap clearfix wow fadeInUp">
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-1.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-2.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-3.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-4.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-5.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-6.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-7.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+            <div class="client-logo">
+              <img src="{{ url_for('static',filename='img/clients/client-8.png') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Clients Section -->
+
+    <!-- ======= Counts Section ======= -->
+    <section id="counts" class="counts">
+      <div class="container">
+
+        <div class="text-center title">
+          <h3>What we have achieved so far</h3>
+          <p>Iusto et labore modi qui sapiente xpedita tempora et aut non ipsum consequatur illo.</p>
+        </div>
+
+        <div class="row counters">
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">232</span>
+            <p>Clients</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">521</span>
+            <p>Projects</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">1,463</span>
+            <p>Hours Of Support</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">15</span>
+            <p>Hard Workers</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+    <section class="wrapper style1 align-center">
+      <div class="inner">
+        <h2>Cool Carousel</h2>
+        <p>It would be cool if we could visualize some of the songs data like the ones from that tensor flow website and if you click on it maybe it loads some song data below </p>
+      </div>
+
+      <!-- Gallery -->
+        <div class="gallery style2 medium lightbox onscroll-fade-in">
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/01.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/01.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Ipsum Dolor</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/02.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/02.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Feugiat Lorem</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/03.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/03.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Magna Amet</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/04.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/04.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Sed Tempus</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/05.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/05.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Ultrices Magna</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/06.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/06.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Sed Tempus</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/07.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/07.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Ipsum Dolor</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/08.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/08.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Feugiat Lorem</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/09.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/09.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Magna Amet</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/10.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/10.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Sed Tempus</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/11.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/11.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Ultrices Magna</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+          <article>
+            <a href="{{ url_for('static',filename='images/gallery/fulls/12.jpg') }}" class="image">
+              <img src="{{ url_for('static',filename='images/gallery/thumbs/12.jpg') }}" alt="" />
+            </a>
+            <div class="caption">
+              <h3>Sed Tempus</h3>
+              <p>Lorem ipsum dolor amet, consectetur magna etiam elit. Etiam sed ultrices.</p>
+              <ul class="actions fixed">
+                <li><span class="button small">Details</span></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>KnightOne</h3>
+      <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
+      <div class="social-links">
+        <a href="https://github.com/KathrynPanger/classify-spotify" class="github"><i class="bx bxl-github"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>KnightOne</span></strong>. All Rights Reserved
+      </div>
+
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/jquery.easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/counterup/counterup.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/venobox/venobox.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+
+
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static',filename='js/main2.js') }}"></script>
+
+
+</body>
+
+</html>
