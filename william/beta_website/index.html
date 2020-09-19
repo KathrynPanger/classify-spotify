@@ -98,31 +98,24 @@
           <h2>Brief</h2>
           <p>We all know that musical genres are a way to tag and identify different types of music. But what most people don't know, is that basic genres have key defining features, that help us to identify them - and so the team's project idea was born...<br><br>The team's objective
             was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Blues,
-            Classical, Country, Heavy Metal, Jazz, Pop, Reggae, Rock, Disco & Hip-Hop</b> </p>
+            Classical, Country, Heavy Metal, Jazz, Pop, Reggae, Rock, Disco, Hip-Hop</b> </p>
         </div>
 
         <div class="row content">
           <div class="col-lg-6">
             <p>
-              The team broke down the process of creating and training a Trained Classifier into the following high-level steps:
+              The team broke down the process of creating and training the Trained Classifier into the following high-level steps:<br><br>
             </p>
             <ul>
-              <li><i class="ri-check-double-line"></i> <b>Spotify API Call</b> - pulling track and genre information (inc. track samples) into pandas, for the purpose of the machine learning</li>
-              <li><i class="ri-check-double-line"></i> <b>Data Transformation</b> - transformating the API collected data, prior to being introduced for the purpose of machine learning  </li>
-              <li><i class="ri-check-double-line"></i> <b>Machine Learning -</b> </li>
+              <li><i class="ri-spotify-fill"></i> <b>Spotify API Call</b> - utilizing the 'spotipy' library to call Spotify's API in order to pull track information data (inc. URLs to audio clips) for the musical genres in-scope.<br><br><br></li>
+              <li><i class="ri-merge-cells-horizontal"></i> <b>Data Transformation</b> - transformating the API collected data, prior to data pre-processing.<br><br><br></li>
+              <li><i class="ri-voiceprint-fill"></i> <b>Pre-processing of data using Librosa</b> - downloading and extracting each audio clip's 6 key audio class features, before saving in a DataFrame, ready for machine learning.</b><br><br><br> </li>
+              <li><i class="ri-eye-2-line"></i> <b>Machine learning using sklearn</b> - harnessing the power of sklearn to train our Trained Classifier.</b><br><br><br> </li>
+              <li><i class="ri-eye-2-line"></i> <b>Testing</b> - finally a testing regime will let us analize weather the Trained Classifier.</b><br><br></li>
             </ul>
           </div>
-          <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <!-- <a href="#" class="btn-learn-more">Learn More</a> -->
-          </div>
-        </div>
+          <div class="image col-lg-6 pt-4 pt-lg-0" style='background-image: url("assets/img/flow_chart.jpg");'></div>
 
-      </div>
     </section><!-- End About Us Section -->
 
     <!-- ======= Services Section ======= -->
