@@ -46,7 +46,7 @@
               <li class="active"><a href="index.html">Home</a></li>
               <li><a href="#brief">Brief</a></li>
               <li><a href="#spotify">Spotify API Call</a></li>
-              <li><a href="#portfolio">Data Transformation</a></li>
+              <li><a href="#data_transformation">Data Transformation</a></li>
               <li><a href="#pricing">Data Pre-processing</a></li>
               <li><a href="#pricing">Machine Learning</a></li>
 
@@ -101,8 +101,8 @@
         <div class="section-title">
           <h2>Brief</h2>
           <p>We all know that musical genres are a way to tag and identify different types of music. But what most people don't know, is that basic genres have key defining features, that help us to identify them - and so the team's project idea was born...<br><br>The team's objective
-            was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Blues,
-            Classical, Country, Heavy Metal, Jazz, Pop, Reggae, Rock, Disco, Hip-Hop</b> </p>
+            was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Reggae Rock,
+            Jazz, Pop, Blues, Classical, Country, Disco, Hip-Hop.</b> </p>
         </div>
 
         <div class="row content">
@@ -225,7 +225,7 @@
       </div>
     </section><!-- End Spotify API Section -->
 
-    <!-- ======= Counts Section ======= -->
+    <!-- ======= Spotify API Section ======= -->
     <section id="counts" class="counts">
       <div class="container">
 
@@ -255,11 +255,51 @@
             <span data-toggle="counter-up">132,000</span>
             <p>Collected Audio Features</p>
           </div>
-
         </div>
 
       </div>
-    </section><!-- End Counts Section -->
+    </section><!-- End Spotify API Section -->
+
+    <!-- ======= Data Transformation Section ======= -->
+    <section id="data_transformation" class="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>Data Transformation</h2>
+          <p>Prior to the pre-processing of track data, for the purpose of machine learning, some basic
+             data transformation was performed, to ensure data integrity and accuracy:<br><br></p>
+
+        <div class="row">
+          <div class="col-lg-6 order-2 order-lg-1">
+            <div class="icon-box mt-5 mt-lg-0">
+              <i class="bx bx-layer-minus"></i>
+              <h4>Dropping duplicates</h4>
+              <p>Some audio tracks appear in Spotify's catelog multiple times for various valid reasons,
+              these duplicates were dropped from their respective dataframes.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-list-minus"></i>
+              <h4>Purging obsolete data columns</h4>
+              <p>Whilst all API collected data served a surpose for referencing purpose, these now obsolete
+              data columns were purged.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-fullscreen"></i>
+              <h4>Removing white space</h4>
+              <p>Datapoints, such as 'track names' and 'preview URLs' contained white space, that required
+              to be removed.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-horizontal-center"></i></i>
+              <h4>Dataframe Joins</h4>
+              <p>Once data transformation was completed, some dataframes      were merged, in preparation
+              for Data Pre-processing.</p>
+            </div>
+          </div>
+          <div class="image col-lg-6 order-1 order-lg-2" style='background-image: url("assets/img/code_shot_3.jpg");'></div>
+        </div>
+
+      </div>
+    </section><!-- End Data Transformation Section -->
 
 
   </main><!-- End #main -->
