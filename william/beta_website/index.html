@@ -410,27 +410,83 @@
             <div class="accordion-list">
               <ul>
                 <li>
-                  <a data-toggle="collapse" class="collapse" href="#accordion-list-1">Step 1 <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" class="collapse" href="#accordion-list-1">1. Setup & Importing Dependencies<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-1" class="collapse show" data-parent=".accordion-list">
                     <p>
-                      Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                      As the team prepared for data pre-processing, Juypter Lab (the previously used IDE) was quickly identified as having  limitations (namely with regard to being
+                      collaborative), so instead we efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies.
+                      <pre>
+                        <code class="language-python">
+                          import pandas as pd
+                          import librosa
+                          from librosa.core import istft
+                          import librosa.display
+                          import IPython.display as ipd
+                          import skimage
+                          from skimage import io
+                          import numpy as np
+                          import matplotlib.pyplot as plt
+                          import sklearn
+                       </code>
+                     </pre>
+
                     </p>
                   </div>
                 </li>
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list-2" class="collapsed">Step 2 <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list-2" class="collapsed">2. Creating a base DataFrame <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
                     <p>
-                      Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                      Before data could be prepared and pre-processed for machine learning, a DataFrame <code class="language-python">basedata</code>
+                      was required to house both computed <b>Mel-frequency cepstral coefficients</b>
+                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521;
+
+                      <pre>
+                        <code class="language-python">
+                       # Creating our base DataFrame with column heading
+                       basedata = {"Genre":[],
+                                   "Chroma Feature":[],
+                                   "Zero-Crossing Rate":[],
+                                   "Spectral Bandwidth":[],
+                                   "Root Mean Square Energy (RSME)":[],
+                                   "Spectral Rolloff":[],
+                                   "Spectral Centroid":[]
+                                   }
+                       # Providing slots for each MFCC value, in the ‘Genre’ dictionary
+                       for i in range(0,30):
+                       mfcc_title = f"mfcc({i})"
+                       mfcc_value = []
+                       basedata[mfcc_title] = mfcc_value
+                       basedata
+                        </code>
+                      </pre>
                     </p>
                   </div>
                 </li>
 
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">Step 3 <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">3. Audio Feature extraction using Spectrograms <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
                     <p>
-                      Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+                      With a dictionary created to store the extracted audio features for each MP3, the next step was to extract the audio features, by means of a Spectrogram.
+                      <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following audio (i) Spectral Centroid
+                      (ii) Spectral Roll-off (iii) Spectral Bandwidth (iv) Chroma Feature (v) Root-mean-square deviation (RMSD) (vi) Mel-frequency cepstrum coefficients (MFCC)</b>.
+                      Once extracted, the team would decide which audio features would be used for machine learning:<br><br>
+                        (a). The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
+                        <pre>
+                          <code class="language-python">
+                            def scale_minmax(X, min=0.0, max=1.0):
+                                X_std = (X - X.min()) / (X.max() - X.min())
+                                X_scaled = X_std * (max - min) + min
+                                return X_scaled
+                            </code>
+                          </pre>
+                      (b) The <code class="language-python">create_spec</code> function was then created to <b>(i)</b> loop through MP3 files it is served <b>(ii)</b> break the MP3 into 30 equal segments,
+                       of 1-second in length <b>(iii)</b> before the mean of each auto feature (e.g MFCC) was computed <b>(iv)</b> and appended to the <code class="language-python">basedata</code> dictionary,
+                        specifically the nested lists.<br><br>
+                        (c) The team then utilized the <code class="language-python">glob</code> Python library. For this intended application, <code class="language-python">glob</code>  was selected as a
+                        preferred way to search a predefined directory for any files that conformed to a specific syntax (in this case ‘.MP3’ files from a local dir), before introducing them to the
+                        <code class="language-python">create_spec</code> function.
                     </p>
                   </div>
                 </li>
