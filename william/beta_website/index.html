@@ -403,7 +403,8 @@
             <div class="content">
               <h3><strong>Data Generation with Librosa</strong></h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                At this stage in the process, all the required data / MP3 clips (accessed through the URLs, sourced through Spotify's API) were saved in a folder
+                for that respective genre. The process could then begin, that uses Librosa to extract Audio Track Features from each MP3 sample clip:
               </p>
             </div>
 
@@ -439,7 +440,7 @@
                     <p>
                       Before data could be prepared and pre-processed for machine learning, a dictionary <code class="language-python">basedata</code>
                       was required to house both computed <b>Mel-frequency cepstral coefficients</b>
-                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521; and the other Audio Class Features.
+                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521; and the other Audio Class Features -
 
                       <pre>
                         <code class="language-python">
@@ -489,7 +490,7 @@
                   <div id="accordion-list-4" class="collapse" data-parent=".accordion-list">
                     <p>
                       Once the Spectogram was setup and calibrated, as part of <code class="language-python">scale-minmax</code>, the main <code class="language-python">create_spec</code> function was then
-                      coded with the purpose of using Librosa built-in functions to compute the Audio Class Features. The following shows the boilerplate setup code for the function:<br>
+                      coded with the purpose of using Librosa built-in functions to compute the Audio Class Features. The following shows the boilerplate setup code for the function - <br>
                       <pre>
                         <code class="language-python">
                           # Defining the main function that passes 'file' variable as an arguement, that
@@ -508,7 +509,7 @@
                   <a data-toggle="collapse" href="#accordion-list-5" class="collapsed">4b. Audio Class Feature extraction - Capturing the Audio Class Features <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-5" class="collapse" data-parent=".accordion-list">
                     <p>
-                      In this part of the <code class="language-python">create_spec</code> function, Librosa's built-in functions are utilized to capture the Audio Class Features for the MP3 file:<br>
+                      In this part of the <code class="language-python">create_spec</code> function, Librosa's built-in functions are utilized to capture the Audio Class Features for the MP3 file - <br>
                       <pre>
                         <code class="language-python">
                           # Finding the Spectral Centroid value
@@ -533,17 +534,78 @@
 
                     </p>
                   </div>
+
                 </li>
 
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list6" class="collapsed">5. Saving Audio Class Features To .CSV & DataFrame <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list6" class="collapsed">5. Ingesting the MP3 files to <code class="language-python">create_spec</code>  <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list6" class="collapse" data-parent=".accordion-list1">
                     <p>
+                      Whilst the main <code class="language-python">create_spec</code> function handles the extraction of Audio Class Features from the MP3 files, it relies on a dependency named <code class="language-python">glob</code>.
+                      Once pointed to a path, <code class="language-python">glob</code> purpose is to find all files in the directory that meet a user-defined syntax, in this case MP3 files.<br><br>
+                      It's purpose in this case is to iterate through and save the MP3 data in a variable, which is then passed as an argument to the main <code class="language-python">create_spec</code> function - <br>
+                      <pre>
+                        <code class="language-python">
+                          import glob
+                          import pathlib
+                          import os
+                          gyo= ["blues","classical","country","disco","h_metal","hiphop","jazz","pop","reggae","rock"]
+                          for file in glob.iglob(r'drive/My Drive/FinalDataProject/rock/*.mp3'): #<path to directory with mp3s in it>
 
+                          for g in gyo:
+
+                            pathlib.Path(f'img_data/{g}').mkdir(parents=True, exist_ok=True)
+                            for filename in os.listdir(f'./drive/My Drive/FinalDataProject/{g}'):
+                                songname = f'./drive/My Drive/FinalDataProject/{g}/{filename}'
+                                create_spec(songname, g)
+                        </code>
+                      </pre>
                     </p>
                   </div>
                 </li>
 
+                <li>
+                  <a data-toggle="collapse" href="#accordion-list7" class="collapsed">6. Saving Audio Class Features To .CSV & DataFrame <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list7" class="collapse" data-parent=".accordion-list1">
+                    <p>
+                      Once the <code class="language-python">create_spec</code> function had extracted and appended all the Audio Features to the respective list
+                      within the <code class="language-python">basedata</code> dictionary, it was time to save all the data appropriately:<br><br>
+                      <span class="greenText">(&#10004;)</span> the <code class="language-python">basedata</code> was converted to a DataFrame - <br>
+                      <pre>
+                        <code class="language-python">
+                          base_df = pd.DataFrame(basedata)
+                          base_df
+                          base_df.to_csv(f'drive/My Drive/FinalDataProject/Machine/{g}_machine_10.csv', index=False)
+                        </code>
+                      </pre>
+                      <br><span class="greenText">(&#10004;)</span> As each loop of both the <code class="language-python">create_spec</code> and <code class="language-python">glob</code>
+                      were iterating through MP3 files for one respective genre (and with there being 10 genres in scope), the now 10 .csv files containing Audio Features were then
+                      combined into one DataFrame / <code class="language-python">ml_df</code> -<br>
+                      <pre>
+                        <code class="language-python">
+                      blues = pd.read_csv("drive/My Drive/FinalDataProject/Machine/blues_machine_10.csv")
+                      classical = pd.read_csv("drive/My Drive/FinalDataProject/Machine/classical_machine_10.csv")
+                      country = pd.read_csv("drive/My Drive/FinalDataProject/Machine/country_machine_10.csv")
+                      disco = pd.read_csv("drive/My Drive/FinalDataProject/Machine/disco_machine_10.csv")
+                      h_metal = pd.read_csv("drive/My Drive/FinalDataProject/Machine/h_metal_machine_10.csv")
+                      hiphop = pd.read_csv("drive/My Drive/FinalDataProject/Machine/hiphop_machine_10.csv")
+                      jazz = pd.read_csv("drive/My Drive/FinalDataProject/Machine/jazz_machine_10.csv")
+                      pop = pd.read_csv("drive/My Drive/FinalDataProject/Machine/pop_machine_10.csv")
+                      reggae = pd.read_csv("drive/My Drive/FinalDataProject/Machine/reggae_machine_10.csv")
+                      rock = pd.read_csv("drive/My Drive/FinalDataProject/Machine/rock_machine_10.csv")
+                        </code>
+                      </pre>
+                    </p>
+                    <br><span class="greenText">(&#10004;)</span> The new created <code class="language-python">ml_df</code> DataFrame was then written to a .csv file -<br>
+                      <pre>
+                        <code class="language-python">
+                          ml_df = pd.concat([blues, classical, country, disco, h_metal, hiphop, jazz, pop, reggae, rock], ignore_index=True)
+                          ml_df
+                        </code>
+                      </pre>
+
+                  </div>
+                </li>
 
               </ul>
             </div>
@@ -584,7 +646,8 @@
             <div class="content">
               <h3><strong>Machine Learning</strong></h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                At this stage in the process, all the required data / MP3 clips (accessed through the URLs, sourced through Spotify's API) were saved in a folder
+                for that respective genre. The process could then begin, that uses Librosa to extract Audio Track Features from each MP3 sample clip -
               </p>
             </div>
 
@@ -595,7 +658,7 @@
                   <div id="accordion-list1" class="collapse show" data-parent=".accordion-list1">
                     <p>
                       As the team prepared for data pre-processing, Juypter Lab (the previously used IDE) was quickly identified as having  limitations (namely with regard to being
-                      collaborative), so instead we efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies.
+                      collaborative), so instead we efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies -
                       <pre>
                         <code class="language-python">
                           import pandas as pd
@@ -653,7 +716,7 @@
                       <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following audio (i) Spectral Centroid
                       (ii) Spectral Roll-off (iii) Spectral Bandwidth (iv) Chroma Feature (v) Root-mean-square deviation (RMSD) (vi) Mel-frequency cepstrum coefficients (MFCC)</b>.
                       Once extracted, the team would decide which Audio Class Features would be used for machine learning:<br><br>
-                        <span class="greenText">(&#10004;)</span> The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
+                        <span class="greenText">(&#10004;)</span> The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram - <br>
                         <pre>
                           <code class="language-python">
                             def scale_minmax(X, min=0.0, max=1.0):
