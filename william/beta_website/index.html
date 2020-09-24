@@ -716,10 +716,10 @@
           <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
 
             <div class="content">
-              <h3><strong>Machine Learning</strong></h3>
+              <h3><strong>Creating a Deep Learning Model</strong></h3>
               <p>
-                At this stage in the process, all the required data / MP3 clips (accessed through the URLs, sourced through Spotify's API) were saved in a folder
-                for that respective genre. The process could then begin, that uses Librosa to extract Audio Track Features from each MP3 sample clip -
+                After generating multiple clean datasets with a varying number of features/mfccs using Librosa, we had one final task: use that data to construct a deep learning model.<br><br>
+                The final step consisted of splitting the datasets into train/test data, creating a neural network and running tests on it to determine the optimum number of layers, nodes, and epochs.
               </p>
             </div>
 
@@ -727,55 +727,69 @@
               <ul>
                 <li>
                   <a data-toggle="collapse" class="collapse" href="#accordion-list1">1. Setup & Importing Dependencies<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list1" class="collapse show" data-parent=".accordion-list1">
+                  <div id="accordion-list1" class="collapse" data-parent=".accordion-list1">
                     <p>
-                      As the team prepared for data pre-processing, Juypter Lab (the previously used IDE) was quickly identified as having  limitations (namely with regard to being
-                      collaborative), so instead we efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies -
+                      As the team decided to migrate from Jupyter Lab to Google Colab, the setup of the now, Colab file and respective depedencies changed slightly.<br><br>
+                      Tensorflow was chosen as the end- machine learning framework to utilize, whilst <code class="language-python">numpy</code> and
+                       <code class="language-python">pandas</code> were used for data visulization and manipulation - <br>
                       <pre>
                         <code class="language-python">
-                          import pandas as pd
-                          import librosa
-                          from librosa.core import istft
-                          import librosa.display
-                          import IPython.display as ipd
-                          import skimage
-                          from skimage import io
-                          import numpy as np
-                          import matplotlib.pyplot as plt
-                          import sklearn
-                       </code>
-                     </pre>
+                          # Importing the users drive, in order to access and write files pertinent to the
+                          # machine learning code file.
+                          x`from google.colab import drive
+                          drive.mount('/content/drive')
 
+                          # Importing dependencies for data manipulation and visualization
+                          import numpy as np
+                          import pandas as pd
+
+                          # Finally importing the machine learning framework, to be utilized for
+                          # the Trained Classifier
+                          import tensorflow
+                          import sklearn
+                          tensorflow.keras.__version__
+                        </code>
+                      </pre>
+                      <b>Note:</b> whilst the above make up all the required dependencies, modules from <code class="language-python">tensorflow</code>
+                       and <code class="language-python">sklearn</code> have been omitted from the above, instead being referenced appropriately, above
+                       from the code they are required for in later steps.
                     </p>
                   </div>
                 </li>
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list2" class="collapsed">2. Creating a base Dictionary <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list2" class="collapsed">2. Data Pre-processing <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list2" class="collapse" data-parent=".accordion-list1">
                     <p>
-                      Before data could be prepared and pre-processed for machine learning, a dictionary <code class="language-python">basedata</code>
-                      was required to house both computed <b>Mel-frequency cepstral coefficients</b>
-                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521;
-
+                      <span class="greenText">(&#10004;)</span> The team began by defining the dependent variable (y) and all the independent variables (x) before printing for verification - <br>
                       <pre>
                         <code class="language-python">
-                       # Creating our base DataFrame with column heading
-                       basedata = {"Genre":[],
-                                   "Chroma Feature":[],
-                                   "Zero-Crossing Rate":[],
-                                   "Spectral Bandwidth":[],
-                                   "Root Mean Square Energy (RSME)":[],
-                                   "Spectral Rolloff":[],
-                                   "Spectral Centroid":[]
-                                   }
-                       # Providing slots for each MFCC value, in the ‘Genre’ dictionary
-                       for i in range(0,30):
-                       mfcc_title = f"mfcc({i})"
-                       mfcc_value = []
-                       basedata[mfcc_title] = mfcc_value
-                       basedata
+                          X = genre.drop("Genre", axis=1)
+                          y = genre["Genre"]
+                          print(X.shape, y.shape)
                         </code>
                       </pre>
+                      <br> <span class="greenText">(&#10004;)</span> Having then imported sklearn and tensor flow dependencies, the data was shuffled and split 80% train
+                      and 20% test data, using sklearn - <br>
+                      <pre>
+                        <code class="language-python">
+                          from sklearn.model_selection import train_test_split
+                          from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+                          from tensorflow.keras.utils import to_categorical
+
+                          X_train, X_test, y_train, y_test = train_test_split(
+                              X, y, random_state=1)
+                          </code>
+                        </pre>
+                      <br> <span class="greenText">(&#10004;)</span> X data was then scaled to fit the model extents, mostly for performance and efficiency. In layman's terms,
+                       the machine is zooming into the active portion of the graph and ignoring the blank, inactive parts -  <br>
+                       <pre>
+                         <code class="language-python">
+                           X_scaler = MinMaxScaler().fit(X_train)
+                           X_train_scaled = X_scaler.transform(X_train)
+                           X_test_scaled = X_scaler.transform(X_test)
+                         </code>
+                       </pre>
+
                     </p>
                   </div>
                 </li>
@@ -784,19 +798,8 @@
                   <a data-toggle="collapse" href="#accordion-list3" class="collapsed">3a. Audio Class Feature extraction - Spectrogram setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list3" class="collapse" data-parent=".accordion-list1">
                     <p>
-                      With a dictionary created to store the extracted Audio Class Features for each MP3, the next step was to extract the Audio Class Features, by means of a Spectrogram.
-                      <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following audio (i) Spectral Centroid
-                      (ii) Spectral Roll-off (iii) Spectral Bandwidth (iv) Chroma Feature (v) Root-mean-square deviation (RMSD) (vi) Mel-frequency cepstrum coefficients (MFCC)</b>.
-                      Once extracted, the team would decide which Audio Class Features would be used for machine learning:<br><br>
-                        <span class="greenText">(&#10004;)</span> The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram - <br>
-                        <pre>
-                          <code class="language-python">
-                            def scale_minmax(X, min=0.0, max=1.0):
-                                X_std = (X - X.min()) / (X.max() - X.min())
-                                X_scaled = X_std * (max - min) + min
-                                return X_scaled
-                            </code>
-                          </pre>
+
+
                     </p>
                   </div>
                 </li>
@@ -804,27 +807,7 @@
                   <a data-toggle="collapse" href="#accordion-list4" class="collapsed">3b. Audio Class Feature extraction - Capturing the Audio Class Features <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list4" class="collapse" data-parent=".accordion-list1">
                     <p>
-                      Once the Spectogram was setup and calibrated, as part of <code class="language-python">scale-minmax</code>, the main <code class="language-python">create_spec</code> function was then
-                      setup to iterate through the Audio Class Features.<br><br><b>Note:</b> Due to the size of the function, it is split between sections <b>3b - 3d</b> These are the first 3 Audio Class Features:<br><br>
-                      <pre>
-                        <code class="language-python">
-                          def create_spec(file):
-                            x , sr = librosa.load(file)
 
-                            sps = sr
-                            spt = sr*30
-                            global basedata
-
-                            for i in range(0,30):
-                            start2=0
-                            end2=sr*30
-                            start2=sr*15
-                            X2 = x[(start2):(start2+sr)]
-
-                            X = librosa.stft(X2)
-                            Xdb = librosa.amplitude_to_db(abs(X))
-                        </code>
-                      </pre>
 
                     </p>
                   </div>

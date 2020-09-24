@@ -928,7 +928,7 @@ section {
 # Cta machine-learning
 --------------------------------------------------------------*/
 .cta3 {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../img/cta_specs.gif") fixed center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../img/machine_learning_cta.gif") fixed center center;
   background-size: cover;
   padding: 120px 0;
 }
