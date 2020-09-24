@@ -1936,3 +1936,8 @@ section {
   opacity: 1;
   visibility: visible;
 }
+
+.greenText
+{
+  color: #00c679;
+}

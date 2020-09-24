@@ -472,7 +472,7 @@
                       <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following audio (i) Spectral Centroid
                       (ii) Spectral Roll-off (iii) Spectral Bandwidth (iv) Chroma Feature (v) Root-mean-square deviation (RMSD) (vi) Mel-frequency cepstrum coefficients (MFCC)</b>.
                       Once extracted, the team would decide which audio features would be used for machine learning:<br><br>
-                        (a). The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
+                        <span class="greenText">(&#10004;)</span> The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
                         <pre>
                           <code class="language-python">
                             def scale_minmax(X, min=0.0, max=1.0):
@@ -481,12 +481,105 @@
                                 return X_scaled
                             </code>
                           </pre>
-                      (b) The <code class="language-python">create_spec</code> function was then created to <b>(i)</b> loop through MP3 files it is served <b>(ii)</b> break the MP3 into 30 equal segments,
+                      <span class="greenText">(&#10004;)</span> The <code class="language-python">create_spec</code> function was then created to <b>(i)</b> loop through MP3 files it is served <b>(ii)</b> break the MP3 into 30 equal segments,
                        of 1-second in length <b>(iii)</b> before the mean of each auto feature (e.g MFCC) was computed <b>(iv)</b> and appended to the <code class="language-python">basedata</code> dictionary,
                         specifically the nested lists.<br><br>
-                        (c) The team then utilized the <code class="language-python">glob</code> Python library. For this intended application, <code class="language-python">glob</code>  was selected as a
+                        <pre>
+                          <code class="language-python" style="height: 5em">
+                            #create function for spectogram plot without visualization (for performance purposes)
+                            def create_spec(file):
+
+                              x , sr = librosa.load(file)
+
+                              sps = sr
+                              spt = sr*30
+                              global basedata
+
+                              for i in range(0,30):
+                              start2=0
+                              end2=sr*30
+                              start2=sr*15
+                              X2 = x[(start2):(start2+sr)]
+
+                              X = librosa.stft(X2)
+                              Xdb = librosa.amplitude_to_db(abs(X))
+
+                              spectral_centroids = librosa.feature.spectral_centroid(x,  sr=sr)
+                              sc_title = f"Spectral Centroid"
+                              sc_value = [spectral_centroids]
+                              basedata[sc_title] = sc_value
+
+                              rmse = librosa.feature.rmse(x)
+                              print(rmse)
+                              rsme_title = f"RSME"
+                              sme_value = [rmse]
+                              basedata[rsme_title] = rsme_value
+
+
+                              spectral_rolloff = librosa.feature.spectral_rolloff(x, sr=sr)
+                              sr_title = f"Spectral Rolloff"
+                              sr_value = [np.mean([spectral_rolloff])]
+                              basedata[sr_title] = sr_value
+
+                              spectral_bandwidth = librosa.feature.spectral_bandwidth(x, sr=sr)
+                              sb_title = f"Spectral Bandwidth"
+                              sb_value = [np.mean([spectral_bandwidth])]
+                              basedata[sb_title] = sb_value
+
+                              zcr = librosa.feature.zero_crossing_rate(x)
+                              zcr_title = f"Zero-Crossing Rate"
+                              zcr_value = [np.mean([zcr])]
+                              basedata[zcr_title] = zcr_value
+
+                              chromagram = librosa.feature.chroma_stft(x, sr=sr)
+                              # # print(chromagram)
+                              # cf_title = f"Chroma Feature"
+                              # cf_value = np.mean([chromagram])
+                              # basedata[cf_title] = cf_value
+
+                              basedata["Genre"].append("rock")
+                              basedata["Chroma Feature"].append(np.mean([chromagram]))
+                              basedata["Zero-Crossing Rate"].append(np.mean([zcr]))
+                              basedata["Spectral Bandwidth"].append(np.mean([spectral_bandwidth]))
+                              basedata["Root Mean Square Energy (RSME)"].append(np.mean([rmse]))
+                              basedata["Spectral Rolloff"].append(np.mean([spectral_rolloff]))
+                              basedata["Spectral Centroid"].append(np.mean([spectral_centroids]))
+
+                            #Break song into 30 equal segments, each 1 second long, and loop through (with different settings)
+                              for i in range(0,30):
+                                  start_sample=sr*i
+                                  window = x[(start_sample):(start_sample+sr)]
+                                  X = librosa.stft(window)
+                                  Xdb = librosa.amplitude_to_db(abs(X))
+                                  Xdb = istft(Xdb)
+
+                                  #find Mel frequency cepstral coefficients
+                                  mfcc = librosa.feature.mfcc(window, sr)
+                                  mfcc = mfcc.T
+                                  mfcc_title = f"mfcc({i})"
+                                  print(mfcc[i])
+                                  mfcc_value = [mfcc[i]]
+                                  basedata[mfcc_title].append(np.mean(mfcc_value))
+                          </code>
+                        </pre>
+
+                        <br><span class="greenText">(&#10004;)</span> The team then utilized the <code class="language-python">glob</code> Python library. For this intended application, <code class="language-python">glob</code>  was selected as a
                         preferred way to search a predefined directory for any files that conformed to a specific syntax (in this case ‘.MP3’ files from a local dir), before introducing them to the
-                        <code class="language-python">create_spec</code> function.
+                        <code class="language-python">create_spec</code> function.<br>
+
+                      <pre>
+                        <code class="language-python">
+                          import glob
+                          gyo= ["blues","classical","country","disco","h_metal","hiphop","jazz","pop","reggae","rock"]
+
+                          for g in genres:
+                              pathlib.Path(f'img_data/{g}').mkdir(parents=True, exist_ok=True)
+                              for filename in os.listdir(f'./drive/My Drive/FinalDataProject/test_mp3/{g}'):
+                                  songname = f'./drive/My Drive/FinalDataProject/test_mp3/{g}/{file}'
+                                  create_spec(file, g)
+                                  base_df.to_csv(f'drive/My Drive/FinalDataProject/Machine/({g})_machine_6.csv', index=False)
+                        </code>
+                      </pre>
                     </p>
                   </div>
                 </li>
