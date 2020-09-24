@@ -403,8 +403,11 @@
             <div class="content">
               <h3><strong>Data Generation with Librosa</strong></h3>
               <p>
-                At this stage in the process, all the required data / MP3 clips (accessed through the URLs, sourced through Spotify's API) were saved in a folder
-                for that respective genre. The process could then begin, that uses Librosa to extract Audio Track Features from each MP3 sample clip:
+                Having called the Spotify API, returned data (including URLs that, in turn, gave us the ability to download Spotify's
+                30-sec MP3 audio clips for each song in our chosen genres), the next stage was to generate the data that would subsequently
+                be used in machine learning, to train the Trained Classifier.<br><br>Specifically, the Audio Class Features would be extracted from the MP3 audio
+                clips, appended to a dictionary of lists, before being saved to both a pandas DataFrame (<code class="language-python">pd.DataFrame(basedata)</code>)
+                 and written to .csv files (<code class="language-python">base_df.co_csv</code>)
               </p>
             </div>
 
@@ -414,8 +417,8 @@
                   <a data-toggle="collapse" class="collapse" href="#accordion-list-1">1. Setup & Importing Dependencies<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-1" class="collapse show" data-parent=".accordion-list">
                     <p>
-                      As the team prepared for data pre-processing, Juypter Lab (the previously used IDE) was quickly identified as having  limitations (namely with regard to being
-                      collaborative), so instead we efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies.
+                      As the team prepared for data pre-processing, Juypter Lab (the previously used IDE) was quickly identified as having  limitations (namely the distinct lack of
+                      collaborative functionality), so instead the team efficiently migrated to Google Colab &#127881; and <code class="language-python">pip installed</code> and imported our dependencies.
                       <pre>
                         <code class="language-python">
                           import pandas as pd
@@ -435,32 +438,36 @@
                   </div>
                 </li>
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list-2" class="collapsed">2. Creating a base Dictionary <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list-2" class="collapsed">2. Creating a base Dictionary & MFCC List <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-2" class="collapse" data-parent=".accordion-list">
                     <p>
                       Before data could be prepared and pre-processed for machine learning, a dictionary <code class="language-python">basedata</code>
-                      was required to house both computed <b>Mel-frequency cepstral coefficients</b>
-                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521; and the other Audio Class Features -
+                      was required to initially house all extracted Audio Features, and eventually the <b>Mel-frequency cepstral coefficients</b>, although
+                      we prefer calling them <b>‘MFCC’</b> personally! &#128521; -
 
                       <pre>
                         <code class="language-python">
-                       # Creating our base DataFrame with column heading
-                       basedata = {"Genre":[],
-                                   "Chroma Feature":[],
-                                   "Zero-Crossing Rate":[],
-                                   "Spectral Bandwidth":[],
-                                   "Root Mean Square Energy (RSME)":[],
-                                   "Spectral Rolloff":[],
-                                   "Spectral Centroid":[]
-                                   }
-                       # Providing slots for each MFCC value, in the ‘Genre’ dictionary
-                       for i in range(0,30):
-                       mfcc_title = f"mfcc({i})"
-                       mfcc_value = []
-                       basedata[mfcc_title] = mfcc_value
-                       basedata
+                          # Creating our base DataFrame with column heading.
+                          # Note: the team found that saving to a DataFrame as this stage caused values to
+                          # be cut-off, so defered this transition to a DataFrame, until later in the process
+                          basedata = {"Genre":[],
+                                     "Chroma Feature":[],
+                                     "Zero-Crossing Rate":[],
+                                     "Spectral Bandwidth":[],
+                                     "Root Mean Square Energy (RSME)":[],
+                                     "Spectral Rolloff":[],
+                                     "Spectral Centroid":[]
+                                     }
+                          # Creating a list for each mfcc value in dictionary
+                          for i in range(0,15):
+                            mfcc_title = f"mfcc({i})"
+                            mfcc_value = []
+                            basedata[mfcc_title] = mfcc_value
                         </code>
                       </pre>
+                      <b>Why didn't the team create a pandas DataFrame?</b> Through trial-and-error,
+                       the team identified that certain values would be cut off, so defered the transition to
+                       a DataFrame until later in the process
                     </p>
                   </div>
                 </li>
@@ -469,11 +476,12 @@
                   <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">3. Spectrogram setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
                     <p>
-                      With a dictionary created to store the Audio Class Features for each MP3, the next step was to extract the Audio Class Features, by means of a Spectrogram.
-                      <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following Audio Class Features: <br><br><span class="greenText">(&#10004;)</span> Spectral Centroid
+                      With the <code class="language-python">basedata</code> dictionary of lists created to store the Audio Class Features for each MP3, the next step was to extract the Audio Class Features, by means of a Spectrogram.
+                      <br><br> A <code class="language-python">create_spec</code> function was created to take an MP3 file and render a Spectrogram, before the function would harness built-in Librosa functions to extract the following
+                      Audio Class Features: <br><br><span class="greenText">(&#10004;)</span> Spectral Centroid
                       <br><span class="greenText">(&#10004;)</span> Spectral Roll-off <br><span class="greenText">(&#10004;)</span> Spectral Bandwidth <br><span class="greenText">(&#10004;)</span> Chroma Feature<br> <span class="greenText">(&#10004;)</span> Root-mean-square deviation (RMSD) <br><span class="greenText">(&#10004;)</span> Mel-frequency cepstrum coefficients (MFCC)</b>.
-                      <br><br>Once extracted, the team would decide which Audio Class Features would be used for machine learning:<br><br>
-                      The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
+                      <br><br>
+                      The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of the spectrogram, required to extract Audio Class Features for each MP3 clip - <br>
                         <pre>
                           <code class="language-python">
                             def scale_minmax(X, min=0.0, max=1.0):
@@ -489,8 +497,8 @@
                   <a data-toggle="collapse" href="#accordion-list-4" class="collapsed">4a. Audio Class Feature extraction - Main Function Setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-4" class="collapse" data-parent=".accordion-list">
                     <p>
-                      Once the Spectogram was setup and calibrated, as part of <code class="language-python">scale-minmax</code>, the main <code class="language-python">create_spec</code> function was then
-                      coded with the purpose of using Librosa built-in functions to compute the Audio Class Features. The following shows the boilerplate setup code for the function - <br>
+                      Once <code class="language-python">scale-minmax</code> had setup and calibrated the Spectrogram, the main <code class="language-python">create_spec</code> function was then
+                      coded, with the purpose of using Librosa built-in functions to compute the Audio Class Features. The following shows the boilerplate setup code for the function - <br>
                       <pre>
                         <code class="language-python">
                           # Defining the main function that passes 'file' variable as an arguement, that
@@ -512,13 +520,14 @@
                       In this part of the <code class="language-python">create_spec</code> function, Librosa's built-in functions are utilized to capture the Audio Class Features for the MP3 file - <br>
                       <pre>
                         <code class="language-python">
-                          # Finding the Spectral Centroid value
+                          # Finding the Spectral Centroid value aka "Center of mass sound"
                           spectral_centroids = librosa.feature.spectral_centroid(x,  sr=sr)
 
                           # Computing Root Mean Square Energy
                           rmse = librosa.feature.rmse(x)
 
-                          # Finding the Spectral Roll-off value
+                          # Finding the Spectral Roll-off value - this measures how often high frequencies
+                          # (peaks) reduce to zero
                           spectral_rolloff = librosa.feature.spectral_rolloff(x, sr=sr)
 
                           # Finding the Spectral Bandwidth value
