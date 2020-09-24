@@ -439,7 +439,7 @@
                     <p>
                       Before data could be prepared and pre-processed for machine learning, a dictionary <code class="language-python">basedata</code>
                       was required to house both computed <b>Mel-frequency cepstral coefficients</b>
-                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521;
+                       (we prefer calling them <b>‘MFCC’</b> personally! &#128521; and the other Audio Class Features.
 
                       <pre>
                         <code class="language-python">
@@ -465,14 +465,14 @@
                 </li>
 
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">3a. Audio Class Feature extraction - Spectrogram setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list-3" class="collapsed">3. Spectrogram setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-3" class="collapse" data-parent=".accordion-list">
                     <p>
-                      With a dictionary created to store the extracted Audio Class Features for each MP3, the next step was to extract the Audio Class Features, by means of a Spectrogram.
-                      <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following audio (i) Spectral Centroid
-                      (ii) Spectral Roll-off (iii) Spectral Bandwidth (iv) Chroma Feature (v) Root-mean-square deviation (RMSD) (vi) Mel-frequency cepstrum coefficients (MFCC)</b>.
-                      Once extracted, the team would decide which Audio Class Features would be used for machine learning:<br><br>
-                        <span class="greenText">(&#10004;)</span> The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
+                      With a dictionary created to store the Audio Class Features for each MP3, the next step was to extract the Audio Class Features, by means of a Spectrogram.
+                      <br><br> A function was created that would take an MP3 file and render a Spectrogram, before the function would extract the following Audio Class Features: <br><br><span class="greenText">(&#10004;)</span> Spectral Centroid
+                      <br><span class="greenText">(&#10004;)</span> Spectral Roll-off <br><span class="greenText">(&#10004;)</span> Spectral Bandwidth <br><span class="greenText">(&#10004;)</span> Chroma Feature<br> <span class="greenText">(&#10004;)</span> Root-mean-square deviation (RMSD) <br><span class="greenText">(&#10004;)</span> Mel-frequency cepstrum coefficients (MFCC)</b>.
+                      <br><br>Once extracted, the team would decide which Audio Class Features would be used for machine learning:<br><br>
+                      The first task was to create a function <code class="language-python">scale_minmax</code> that defines the scale of our the spectrogram.<br>
                         <pre>
                           <code class="language-python">
                             def scale_minmax(X, min=0.0, max=1.0):
@@ -485,34 +485,66 @@
                   </div>
                 </li>
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list-4" class="collapsed">3b. Audio Class Feature extraction - Capturing the Audio Class Features <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list-4" class="collapsed">4a. Audio Class Feature extraction - Main Function Setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-4" class="collapse" data-parent=".accordion-list">
                     <p>
                       Once the Spectogram was setup and calibrated, as part of <code class="language-python">scale-minmax</code>, the main <code class="language-python">create_spec</code> function was then
-                      setup to iterate through the Audio Class Features.<br><br><b>Note:</b> Due to the size of the function, it is split between sections <b>3b - 3d</b> These are the first 3 Audio Class Features:<br><br>
+                      coded with the purpose of using Librosa built-in functions to compute the Audio Class Features. The following shows the boilerplate setup code for the function:<br>
                       <pre>
                         <code class="language-python">
-                          def create_spec(file):
-                            x , sr = librosa.load(file)
-
-                            sps = sr
-                            spt = sr*30
-                            global basedata
-
-                            for i in range(0,30):
-                            start2=0
-                            end2=sr*30
-                            start2=sr*15
-                            X2 = x[(start2):(start2+sr)]
-
-                            X = librosa.stft(X2)
-                            Xdb = librosa.amplitude_to_db(abs(X))
+                          # Defining the main function that passes 'file' variable as an arguement, that
+                          # will be introduce the MP3 file to the function
+                          def create_spec(file, g):
+                          x , sr = librosa.load(file)
+                          global basedata
                         </code>
                       </pre>
 
                     </p>
                   </div>
                 </li>
+
+                <li>
+                  <a data-toggle="collapse" href="#accordion-list-5" class="collapsed">4b. Audio Class Feature extraction - Capturing the Audio Class Features <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list-5" class="collapse" data-parent=".accordion-list">
+                    <p>
+                      In this part of the <code class="language-python">create_spec</code> function, Librosa's built-in functions are utilized to capture the Audio Class Features for the MP3 file:<br>
+                      <pre>
+                        <code class="language-python">
+                          # Finding the Spectral Centroid value
+                          spectral_centroids = librosa.feature.spectral_centroid(x,  sr=sr)
+
+                          # Computing Root Mean Square Energy
+                          rmse = librosa.feature.rmse(x)
+
+                          # Finding the Spectral Roll-off value
+                          spectral_rolloff = librosa.feature.spectral_rolloff(x, sr=sr)
+
+                          # Finding the Spectral Bandwidth value
+                          spectral_bandwidth = librosa.feature.spectral_bandwidth(x, sr=sr)
+
+                          # Finding the Zero Crossing Rate value
+                          zcr = librosa.feature.zero_crossing_rate(x)
+
+                          # Finding Chroma feature value
+                          hromagram = librosa.feature.chroma_stft(x, sr=sr)
+                        </code>
+                      </pre>
+
+                    </p>
+                  </div>
+                </li>
+
+                <li>
+                  <a data-toggle="collapse" href="#accordion-list6" class="collapsed">5. Saving Audio Class Features To .CSV & DataFrame <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <div id="accordion-list6" class="collapse" data-parent=".accordion-list1">
+                    <p>
+
+                    </p>
+                  </div>
+                </li>
+
+
               </ul>
             </div>
 
@@ -662,6 +694,7 @@
                     </p>
                   </div>
                 </li>
+
               </ul>
             </div>
 
