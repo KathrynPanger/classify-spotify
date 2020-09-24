@@ -789,7 +789,45 @@
                            X_test_scaled = X_scaler.transform(X_test)
                          </code>
                        </pre>
-
+                      <br> <span class="purpleText">(&#10004;)</span> <b>Part (a) -</b> The genre string was then label-encoded into integer, using <code class="language-python">sklearn</code><br>
+                      <pre>
+                        <code class="language-python">
+                          label_encoder = LabelEncoder()
+                          label_encoder.fit(y_train)
+                          encoded_y_train = label_encoder.transform(y_train)
+                          encoded_y_test = label_encoder.transform(y_test)
+                        </code>
+                      </pre>
+                      <br> <span class="purpleText">(&#10004;)</span> <b>Part (b) -</b> <code class="language-python">keras</code> was then utilized to convert encoded labels to one-hot-encoding (integers to binary code - <br>
+                      <pre>
+                        <code class="language-python">
+                          y_train_categorical = to_categorical(encoded_y_train)
+                          y_test_categorical = to_categorical(encoded_y_test)
+                        </code>
+                      </pre>
+                      <br> <span class="greenText">(&#10004;)</span> At this stage, the deep learning dependencies were imported, before testing 3 datasets with 3 different inputs.
+                       E.g - in code example below: <br><br>
+                      <span class="purpleText">(&#9642;)</span> <b>21 input dimensions</b> (one for each feature and MFCC), with the <b>output set to 10</b>, in-line with the number of genres in scope.<br>
+                      <span class="purpleText">(&#9642;)</span> <b>85 nodes</b> are present in the <b>input layer</b>, with <b>75 nodes in the first hidden layer</b>, and <b>10 nodes</b> in the second hidden layer - <br>
+                      <pre>
+                        <code class="language-python">
+                          # The best score in this example dataset was c.51% accuracy.
+                          model = Sequential()
+                          model.add(Dense(units=85, activation='relu', input_dim=21))
+                          model.add(Dense(units=75, activation='relu'))
+                          model.add(Dense(units=10, activation='relu'))
+                          model.add(Dense(units=10, activation='softmax'))
+                        </code>
+                      </pre>
+                      <br> <span class="greenText">(&#10004;)</span> The model was then compiled and fitted, before displaying it's shape / summary - <br>
+                      <pre>
+                        <code class="language-python">
+                          model.compile(optimizer='adam',
+                                        loss='categorical_crossentropy',
+                                        metrics=['accuracy'])
+                          model.summary()
+                        </code>
+                      </pre>
                     </p>
                   </div>
                 </li>
