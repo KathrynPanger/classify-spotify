@@ -628,7 +628,7 @@
 
 
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list6" class="collapsed">5. Ingesting the MP3 files to <code class="language-python">create_spec</code> function  <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list6" class="collapsed">5. Handling the MP3 files in the <code class="language-python">create_spec</code> function  <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list6" class="collapse" data-parent=".accordion-list1">
                     <p>
                       Whilst the main <code class="language-python">create_spec</code> function handles the extraction of Audio Class Features from the MP3 files, it relies on a dependency named <code class="language-python">glob</code>.
@@ -639,10 +639,13 @@
                           import glob
                           import pathlib
                           import os
-                          gyo= ["blues","classical","country","disco","h_metal","hiphop","jazz","pop","reggae","rock"]
-                          for file in glob.iglob(r'drive/My Drive/FinalDataProject/rock/*.mp3'): #<path to directory with mp3s in it>
 
-                          for g in gyo:
+                          # This cell loops through all mp3s in all genre folders and applies the create spec
+                          # function and produces a compiled dataframe at the end with 1000 rows
+                          genre_list= ["blues","classical","country","disco","h_metal","hiphop","jazz","pop",
+                          "reggae","rock"]
+
+                          for g in genre_list:
 
                             pathlib.Path(f'img_data/{g}').mkdir(parents=True, exist_ok=True)
                             for filename in os.listdir(f'./drive/My Drive/FinalDataProject/{g}'):
@@ -664,36 +667,15 @@
                       <pre>
                         <code class="language-python">
                           base_df = pd.DataFrame(basedata)
-                          base_df
-                          base_df.to_csv(f'drive/My Drive/FinalDataProject/Machine/{g}_machine_10.csv', index=False)
                         </code>
                       </pre>
-                      <br><span class="greenText">(&#10004;)</span> As each loop of both the <code class="language-python">create_spec</code> and <code class="language-python">glob</code>
-                      were iterating through MP3 files for one respective genre (and with there being 10 genres in scope), the now 10 .csv files containing Audio Features were then
-                      combined into one DataFrame / <code class="language-python">ml_df</code> -<br>
+                      <br><span class="greenText">(&#10004;)</span> Finally, the <code class="language-python">base_df</code> was written to a CSV file<br>
                       <pre>
                         <code class="language-python">
-                      blues = pd.read_csv("drive/My Drive/FinalDataProject/Machine/blues_machine_10.csv")
-                      classical = pd.read_csv("drive/My Drive/FinalDataProject/Machine/classical_machine_10.csv")
-                      country = pd.read_csv("drive/My Drive/FinalDataProject/Machine/country_machine_10.csv")
-                      disco = pd.read_csv("drive/My Drive/FinalDataProject/Machine/disco_machine_10.csv")
-                      h_metal = pd.read_csv("drive/My Drive/FinalDataProject/Machine/h_metal_machine_10.csv")
-                      hiphop = pd.read_csv("drive/My Drive/FinalDataProject/Machine/hiphop_machine_10.csv")
-                      jazz = pd.read_csv("drive/My Drive/FinalDataProject/Machine/jazz_machine_10.csv")
-                      pop = pd.read_csv("drive/My Drive/FinalDataProject/Machine/pop_machine_10.csv")
-                      reggae = pd.read_csv("drive/My Drive/FinalDataProject/Machine/reggae_machine_10.csv")
-                      rock = pd.read_csv("drive/My Drive/FinalDataProject/Machine/rock_machine_10.csv")
+                          base_df.to_csv("drive/My Drive/FinalDataProject/Machine/numerical_machine_15.csv", index=False)
                         </code>
                       </pre>
                     </p>
-                    <br><span class="greenText">(&#10004;)</span> The new created <code class="language-python">ml_df</code> DataFrame was then written to a .csv file -<br>
-                      <pre>
-                        <code class="language-python">
-                          ml_df = pd.concat([blues, classical, country, disco, h_metal, hiphop, jazz, pop, reggae, rock], ignore_index=True)
-                          ml_df
-                        </code>
-                      </pre>
-
                   </div>
                 </li>
 
