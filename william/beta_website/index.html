@@ -381,11 +381,12 @@
 
             <div class="row">
               <div class="col-lg-9 text-center text-lg-left">
-                <h3>Spotify API Facts</h3>
-                <p> "Data Science to me, is about bringing order to complexity"</p>
+                <h3>Librosa Facts</h3>
+                <p> <code class="language-python">librosa</code> is a python package for music and audio analysis.<br>
+                  It provides the building blocks necessary to create music information retrieval systems."</p>
               </div>
               <div class="col-lg-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle" href="#">Contact William</a>
+                <a class="cta-btn align-middle" href="https://librosa.org/doc/latest/index.html" target="blank">Learn more</a>
               </div>
             </div>
           </div>
@@ -696,11 +697,12 @@
 
             <div class="row">
               <div class="col-lg-9 text-center text-lg-left">
-                <h3>Spotify API Facts</h3>
-                <p> "Data Science to me, is about bringing order to complexity"</p>
+                <h3>Sklearn Fact Check</h3>
+                <p> <code class="language-python">Scikit-learn</code>is a free software machine learning library for the Python programming language.<br>
+                  It features various classification, regression and clustering algorithms including support vector machines</p>
               </div>
               <div class="col-lg-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle" href="#">Contact William</a>
+                <a class="cta-btn align-middle" href="https://scikit-learn.org/stable/">Visit Sklearn</a>
               </div>
             </div>
           </div>
@@ -805,13 +807,20 @@
                           y_test_categorical = to_categorical(encoded_y_test)
                         </code>
                       </pre>
-                      <br> <span class="greenText">(&#10004;)</span> At this stage, the deep learning dependencies were imported, before testing 3 datasets with 3 different inputs.
+                      <br> <span class="greenText">(&#10004;)</span> At this stage, the deep learning dependencies were imported, before testing 3 datasets with 3 different inputs. <b>The purpose
+                      of this particular test is testing the accuracy rating for the trainging data.</b>
                        E.g - in code example below: <br><br>
                       <span class="purpleText">(&#9642;)</span> <b>21 input dimensions</b> (one for each feature and MFCC), with the <b>output set to 10</b>, in-line with the number of genres in scope.<br>
                       <span class="purpleText">(&#9642;)</span> <b>85 nodes</b> are present in the <b>input layer</b>, with <b>75 nodes in the first hidden layer</b>, and <b>10 nodes</b> in the second hidden layer - <br>
                       <pre>
                         <code class="language-python">
                           # The best score in this example dataset was c.51% accuracy.
+                          from tensorflow.keras.models import Sequential
+                          from tensorflow.keras.layers import Dense
+                          from keras.models import Sequential, load_model
+                          from keras.layers.core import Dense, Dropout, Activation
+                          from keras.utils import np_utils
+
                           model = Sequential()
                           model.add(Dense(units=85, activation='relu', input_dim=21))
                           model.add(Dense(units=75, activation='relu'))
@@ -828,25 +837,360 @@
                           model.summary()
                         </code>
                       </pre>
+                      ______________________________________________________________________________________________
+                      <table style="width:100%">
+                        <tr>
+                          <th>Layer (type)</th>
+                          <th>Output Shape</th>
+                          <th>Param #</th>
+                        </tr>
+                        <tr>
+                          <td>dense (Dense)</td>
+                          <td>(None, 85)</td>
+                          <td>1870</td>
+                        </tr>
+                        <tr>
+                          <td>dense_1 (Dense)</td>
+                          <td>(None, 75)</td>
+                          <td>6450</td>
+                        </tr>
+                        <tr>
+                          <td>dense_2 (Dense)</td>
+                          <td>(None, 10)</td>
+                          <td>760</td>
+                        </tr>
+                        <tr>
+                          <td>dense_3 (Dense)</td>
+                          <td>(None, 10)</td>
+                          <td>110</td>
+                        </tr>
+                      </table>
+                      ______________________________________________________________________________________________<br>
+                      <br> <span class="greenText">(&#10004;)</span> Before the team could quantify the model, the model was trained for 120-cycles and tested against test data - <br>
+                      <pre>
+                        <code class="language-python">
+                      model.fit(
+                          X_train_scaled,
+                          y_train_categorical,
+                          epochs=120,
+                          shuffle=True,
+                          verbose=2
+                      )
+
+                      model_loss, model_accuracy = model.evaluate(
+                          X_test_scaled, y_test_categorical, verbose=2)
+                      print(
+                          f"Normal Neural Network - Loss:{model_loss},Accuracy:{model_accuracy}")
+                        </code>
+                      </pre>
+                      <br> <span class="greenText">&#128221;</span> <b>Results: </b> Here are the testing results of the model, against training data: <br>
+                      <div style="height:120px;width:765px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        Epoch 1/120<br>
+                        24/24 - 0s - loss: 2.2899 - accuracy: 0.1107<br>
+                        Epoch 2/120<br>
+                        24/24 - 0s - loss: 2.2741 - accuracy: 0.1320<br>
+                        Epoch 3/120<br>
+                        24/24 - 0s - loss: 2.2506 - accuracy: 0.1547<br>
+                        Epoch 4/120<br>
+                        24/24 - 0s - loss: 2.2199 - accuracy: 0.1933<br>
+                        Epoch 5/120<br>
+                        24/24 - 0s - loss: 2.1914 - accuracy: 0.2147<br>
+                        Epoch 6/120<br>
+                        24/24 - 0s - loss: 2.1507 - accuracy: 0.2453<br>
+                        Epoch 7/120<br>
+                        24/24 - 0s - loss: 2.1055 - accuracy: 0.2653<br>
+                        Epoch 8/120<br>
+                        24/24 - 0s - loss: 2.0576 - accuracy: 0.2773<br>
+                        Epoch 9/120<br>
+                        24/24 - 0s - loss: 2.0049 - accuracy: 0.2827<br>
+                        Epoch 10/120<br>
+                        24/24 - 0s - loss: 1.9475 - accuracy: 0.2880<br>
+                        Epoch 11/120<br>
+                        24/24 - 0s - loss: 1.8831 - accuracy: 0.3027<br>
+                        Epoch 12/120<br>
+                        24/24 - 0s - loss: 1.8403 - accuracy: 0.3133<br>
+                        Epoch 13/120<br>
+                        24/24 - 0s - loss: 1.7768 - accuracy: 0.3120<br>
+                        Epoch 14/120<br>
+                        24/24 - 0s - loss: 1.7659 - accuracy: 0.3320<br>
+                        Epoch 15/120<br>
+                        24/24 - 0s - loss: 1.7240 - accuracy: 0.3467<br>
+                        Epoch 16/120<br>
+                        24/24 - 0s - loss: 1.6810 - accuracy: 0.3507<br>
+                        Epoch 17/120<br>
+                        24/24 - 0s - loss: 1.6872 - accuracy: 0.3440<br>
+                        Epoch 18/120<br>
+                        24/24 - 0s - loss: 1.6335 - accuracy: 0.3760<br>
+                        Epoch 19/120<br>
+                        24/24 - 0s - loss: 1.6117 - accuracy: 0.4013<br>
+                        Epoch 20/120<br>
+                        24/24 - 0s - loss: 1.6136 - accuracy: 0.4000<br>
+                        Epoch 21/120<br>
+                        24/24 - 0s - loss: 1.5995 - accuracy: 0.4013<br>
+                        Epoch 22/120<br>
+                        24/24 - 0s - loss: 1.5761 - accuracy: 0.4133<br>
+                        Epoch 23/120<br>
+                        24/24 - 0s - loss: 1.5785 - accuracy: 0.3840<br>
+                        Epoch 24/120<br>
+                        24/24 - 0s - loss: 1.5388 - accuracy: 0.4200<br>
+                        Epoch 25/120<br>
+                        24/24 - 0s - loss: 1.5280 - accuracy: 0.4413<br>
+                        Epoch 26/120<br>
+                        24/24 - 0s - loss: 1.5329 - accuracy: 0.4387<br>
+                        Epoch 27/120<br>
+                        24/24 - 0s - loss: 1.5298 - accuracy: 0.4173<br>
+                        Epoch 28/120<br>
+                        24/24 - 0s - loss: 1.5068 - accuracy: 0.4307<br>
+                        Epoch 29/120<br>
+                        24/24 - 0s - loss: 1.4958 - accuracy: 0.4360<br>
+                        Epoch 30/120<br>
+                        24/24 - 0s - loss: 1.4943 - accuracy: 0.4387<br>
+                        Epoch 31/120<br>
+                        24/24 - 0s - loss: 1.4711 - accuracy: 0.4533<br>
+                        Epoch 32/120<br>
+                        24/24 - 0s - loss: 1.4992 - accuracy: 0.4133<br>
+                        Epoch 33/120<br>
+                        24/24 - 0s - loss: 1.4670 - accuracy: 0.4440<br>
+                        Epoch 34/120<br>
+                        24/24 - 0s - loss: 1.4613 - accuracy: 0.4467<br>
+                        Epoch 35/120<br>
+                        24/24 - 0s - loss: 1.4459 - accuracy: 0.4547<br>
+                        Epoch 36/120<br>
+                        24/24 - 0s - loss: 1.4259 - accuracy: 0.4560<br>
+                        Epoch 37/120<br>
+                        24/24 - 0s - loss: 1.4362 - accuracy: 0.4560<br>
+                        Epoch 38/120<br>
+                        24/24 - 0s - loss: 1.4282 - accuracy: 0.4600<br>
+                        Epoch 39/120<br>
+                        24/24 - 0s - loss: 1.4228 - accuracy: 0.4520<br>
+                        Epoch 40/120<br>
+                        24/24 - 0s - loss: 1.4103 - accuracy: 0.4560<br>
+                        Epoch 41/120<br>
+                        24/24 - 0s - loss: 1.4038 - accuracy: 0.4600<br>
+                        Epoch 42/120<br>
+                        24/24 - 0s - loss: 1.4056 - accuracy: 0.4733<br>
+                        Epoch 43/120<br>
+                        24/24 - 0s - loss: 1.4125 - accuracy: 0.4587<br>
+                        Epoch 44/120<br>
+                        24/24 - 0s - loss: 1.3902 - accuracy: 0.4707<br>
+                        Epoch 45/120<br>
+                        24/24 - 0s - loss: 1.3889 - accuracy: 0.4707<br>
+                        Epoch 46/120<br>
+                        24/24 - 0s - loss: 1.3858 - accuracy: 0.4667<br>
+                        Epoch 47/120<br>
+                        24/24 - 0s - loss: 1.3715 - accuracy: 0.4653<br>
+                        Epoch 48/120<br>
+                        24/24 - 0s - loss: 1.3684 - accuracy: 0.4653<br>
+                        Epoch 49/120<br>
+                        24/24 - 0s - loss: 1.3825 - accuracy: 0.4760<br>
+                        Epoch 50/120<br>
+                        24/24 - 0s - loss: 1.3719 - accuracy: 0.4827<br>
+                        Epoch 51/120<br>
+                        24/24 - 0s - loss: 1.3806 - accuracy: 0.4520<br>
+                        Epoch 52/120<br>
+                        24/24 - 0s - loss: 1.3710 - accuracy: 0.4867<br>
+                        Epoch 53/120<br>
+                        24/24 - 0s - loss: 1.3847 - accuracy: 0.4627<br>
+                        Epoch 54/120<br>
+                        24/24 - 0s - loss: 1.3906 - accuracy: 0.4680<br>
+                        Epoch 55/120<br>
+                        24/24 - 0s - loss: 1.4286 - accuracy: 0.4507<br>
+                        Epoch 56/120<br>
+                        24/24 - 0s - loss: 1.3688 - accuracy: 0.4733<br>
+                        Epoch 57/120<br>
+                        24/24 - 0s - loss: 1.3696 - accuracy: 0.4480<br>
+                        Epoch 58/120<br>
+                        24/24 - 0s - loss: 1.3585 - accuracy: 0.4707<br>
+                        Epoch 59/120<br>
+                        24/24 - 0s - loss: 1.3462 - accuracy: 0.4853<br>
+                        Epoch 60/120<br>
+                        24/24 - 0s - loss: 1.3428 - accuracy: 0.4827<br>
+                        Epoch 61/120<br>
+                        24/24 - 0s - loss: 1.3644 - accuracy: 0.4733<br>
+                        Epoch 62/120<br>
+                        24/24 - 0s - loss: 1.3525 - accuracy: 0.4813<br>
+                        Epoch 63/120<br>
+                        24/24 - 0s - loss: 1.3627 - accuracy: 0.4707<br>
+                        Epoch 64/120<br>
+                        24/24 - 0s - loss: 1.3659 - accuracy: 0.4693<br>
+                        Epoch 65/120<br>
+                        24/24 - 0s - loss: 1.3467 - accuracy: 0.4747<br>
+                        Epoch 66/120<br>
+                        24/24 - 0s - loss: 1.3372 - accuracy: 0.4947<br>
+                        Epoch 67/120<br>
+                        24/24 - 0s - loss: 1.3216 - accuracy: 0.4960<br>
+                        Epoch 68/120<br>
+                        24/24 - 0s - loss: 1.3313 - accuracy: 0.4933<br>
+                        Epoch 69/120<br>
+                        24/24 - 0s - loss: 1.3450 - accuracy: 0.4880<br>
+                        Epoch 70/120
+                        24/24 - 0s - loss: 1.3244 - accuracy: 0.4920<br>
+                        Epoch 71/120<br>
+                        24/24 - 0s - loss: 1.3246 - accuracy: 0.4867<br>
+                        Epoch 72/120<br>
+                        24/24 - 0s - loss: 1.3434 - accuracy: 0.4840<br>
+                        Epoch 73/120<br>
+                        24/24 - 0s - loss: 1.3372 - accuracy: 0.4880<br>
+                        Epoch 74/120<br>
+                        24/24 - 0s - loss: 1.3632 - accuracy: 0.4800<br>
+                        Epoch 75/120<br>
+                        24/24 - 0s - loss: 1.3254 - accuracy: 0.4867<br>
+                        Epoch 76/120<br>
+                        24/24 - 0s - loss: 1.3177 - accuracy: 0.4947<br>
+                        Epoch 77/120<br>
+                        24/24 - 0s - loss: 1.3359 - accuracy: 0.4787<br>
+                        Epoch 78/120<br>
+                        24/24 - 0s - loss: 1.3456 - accuracy: 0.4840<br>
+                        Epoch 79/120<br>
+                        24/24 - 0s - loss: 1.3042 - accuracy: 0.5040<br>
+                        Epoch 80/120<br>
+                        24/24 - 0s - loss: 1.3063 - accuracy: 0.5000<br>
+                        Epoch 81/120<br>
+                        24/24 - 0s - loss: 1.3009 - accuracy: 0.5000<br>
+                        Epoch 82/120<br>
+                        24/24 - 0s - loss: 1.3182 - accuracy: 0.4880<br>
+                        Epoch 83/120<br>
+                        24/24 - 0s - loss: 1.3055 - accuracy: 0.5013<br>
+                        Epoch 84/120<br>
+                        24/24 - 0s - loss: 1.3048 - accuracy: 0.4960<br>
+                        Epoch 85/120<br>
+                        24/24 - 0s - loss: 1.2847 - accuracy: 0.5000<br>
+                        Epoch 86/120<br>
+                        24/24 - 0s - loss: 1.2839 - accuracy: 0.5040<br>
+                        Epoch 87/120<br>
+                        24/24 - 0s - loss: 1.2826 - accuracy: 0.5107<br>
+                        Epoch 88/120<br>
+                        24/24 - 0s - loss: 1.3180 - accuracy: 0.5133<br>
+                        Epoch 89/120<br>
+                        24/24 - 0s - loss: 1.2846 - accuracy: 0.4973<br>
+                        Epoch 90/120<br>
+                        24/24 - 0s - loss: 1.2763 - accuracy: 0.5133<br>
+                        Epoch 91/120<br>
+                        24/24 - 0s - loss: 1.2915 - accuracy: 0.4960<br>
+                        Epoch 92/120<br>
+                        24/24 - 0s - loss: 1.2936 - accuracy: 0.5147<br>
+                        Epoch 93/120<br>
+                        24/24 - 0s - loss: 1.3172 - accuracy: 0.4787<br>
+                        Epoch 94/120<br>
+                        24/24 - 0s - loss: 1.3127 - accuracy: 0.4880<br>
+                        Epoch 95/120<br>
+                        24/24 - 0s - loss: 1.2843 - accuracy: 0.5053<br>
+                        Epoch 96/120<br>
+                        24/24 - 0s - loss: 1.2833 - accuracy: 0.5053<br>
+                        Epoch 97/120<br>
+                        24/24 - 0s - loss: 1.2981 - accuracy: 0.5147<br>
+                        Epoch 98/120<br>
+                        24/24 - 0s - loss: 1.2903 - accuracy: 0.5067<br>
+                        Epoch 99/120<br>
+                        24/24 - 0s - loss: 1.2836 - accuracy: 0.5040<br>
+                        Epoch 100/120<br>
+                        24/24 - 0s - loss: 1.2910 - accuracy: 0.5227<br>
+                        Epoch 101/120<br>
+                        24/24 - 0s - loss: 1.2739 - accuracy: 0.5227<br>
+                        Epoch 102/120<br>
+                        24/24 - 0s - loss: 1.2665 - accuracy: 0.5173<br>
+                        Epoch 103/120<br>
+                        24/24 - 0s - loss: 1.2581 - accuracy: 0.5253<br>
+                        Epoch 104/120<br>
+                        24/24 - 0s - loss: 1.2656 - accuracy: 0.5187<br>
+                        Epoch 105/120<br>
+                        24/24 - 0s - loss: 1.2652 - accuracy: 0.5120<br>
+                        Epoch 106/120<br>
+                        24/24 - 0s - loss: 1.2522 - accuracy: 0.5200<br>
+                        Epoch 107/120<br>
+                        24/24 - 0s - loss: 1.2427 - accuracy: 0.5307<br>
+                        Epoch 108/120<br>
+                        24/24 - 0s - loss: 1.2527 - accuracy: 0.5227<br>
+                        Epoch 109/120<br>
+                        24/24 - 0s - loss: 1.2820 - accuracy: 0.5013<br>
+                        Epoch 110/120<br>
+                        24/24 - 0s - loss: 1.2789 - accuracy: 0.4853<br>
+                        Epoch 111/120<br>
+                        24/24 - 0s - loss: 1.2435 - accuracy: 0.5187<br>
+                        Epoch 112/120<br>
+                        24/24 - 0s - loss: 1.2681 - accuracy: 0.5107<br>
+                        Epoch 113/120<br>
+                        24/24 - 0s - loss: 1.2485 - accuracy: 0.5200<br>
+                        Epoch 114/120<br>
+                        24/24 - 0s - loss: 1.2335 - accuracy: 0.5160<br>
+                        Epoch 115/120<br>
+                        24/24 - 0s - loss: 1.2384 - accuracy: 0.5253<br>
+                        Epoch 116/120<br>
+                        24/24 - 0s - loss: 1.2315 - accuracy: 0.5347<br>
+                        Epoch 117/120<br>
+                        24/24 - 0s - loss: 1.2176 - accuracy: 0.5240<br>
+                        Epoch 118/120<br>
+                        24/24 - 0s - loss: 1.2267 - accuracy: 0.5440<br>
+                        Epoch 119/120<br>
+                        24/24 - 0s - loss: 1.2507 - accuracy: 0.5280<br>
+                        Epoch 120/120<br>
+                        24/24 - 0s - loss: 1.2329 - accuracy: 0.5280<br>
+                        8/8 - 0s - loss: 1.4906 - accuracy: 0.4600<br>
+                        Normal Neural Network - Loss: 1.4905989170074463, Accuracy: 0.46000000834465027
+                      </div>
+                      <b>Note: remember to move the decimal 2-places! <span class="greenText">&#129299;</span></b>
                     </p>
                   </div>
                 </li>
 
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list3" class="collapsed">3a. Audio Class Feature extraction - Spectrogram setup <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list3" class="collapsed">3. Quantifying our model (Trained Classifer) <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list3" class="collapse" data-parent=".accordion-list1">
                     <p>
-
-
+                      Whilst the previous test is the accuracy rating for the training data, the second test is concerned with the accuracy rating for the testing data:<br>
+                      <pre>
+                        <code class="language-python">
+                          model_loss, model_accuracy = model.evaluate(
+                              X_test_scaled, y_test_categorical, verbose=2)
+                          print(
+                          f"Normal Neural Network - Loss: {model_loss}, Accuracy: {model_accuracy}")
+                        </code>
+                      </pre>
+                      <br> <span class="greenText">&#128221;</span> <b>Results: </b> Here are the testing results of the model, against testing data: <br><br>
+                      <div style="height:60px;width:765px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        8/8 - 0s - loss: 1.4906 - accuracy: 0.4600<br>
+                        Normal Neural Network - Loss: 1.4905989170074463, Accuracy: 0.46000000834465027
+                      </div>
+                      <b>Note: remember to move the decimal 2-places! <span class="greenText">&#129299;</span></b>
                     </p>
                   </div>
                 </li>
                 <li>
-                  <a data-toggle="collapse" href="#accordion-list4" class="collapsed">3b. Audio Class Feature extraction - Capturing the Audio Class Features <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-toggle="collapse" href="#accordion-list4" class="collapsed">4. Making Predictions <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list4" class="collapse" data-parent=".accordion-list1">
                     <p>
-
-
+                      In this final phase, our now Trained Classifer model would be put through it's paces in terms of efficiency and indeed accuracy:<br>
+                      <br> <span class="greenText">(&#10004;)</span> The first testing stage involved putting the machines predictions and test values into variables - <br>
+                      <pre>
+                        <code class="language-python">
+                          encoded_predictions = model.predict_classes(X_test_scaled[:10])
+                          prediction_labels = label_encoder.inverse_transform(encoded_predictions)
+                        </code>
+                      </pre>
+                      <br> <span class="greenText">(&#10004;)</span> Before then printing the machine predictions and test values to draw comparison - <br>
+                      <pre>
+                        <code class="language-python">
+                          print(f"Predicted classes: {prediction_labels}")
+                          print(f"Actual Labels: {list(y_test[:10])}")
+                        </code>
+                      </pre>
+                      <div style="height:60px;width:765px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        <b>Predicted classes:</b> ['hiphop' 'reggae' 'h_metal' 'rock' 'country' 'rock' 'rock' 'reggae' 'pop'
+                         'blues']<br>
+                        <b>Actual Labels:</b> ['hiphop', 'reggae', 'h_metal', 'disco', 'country', 'rock', 'country', 'reggae', 'disco', 'blues']
+                      </div>
+                      <br><span class="greenText">(&#10004;)</span>The final step was now to print the info / stats of the model for review - <br>
+                      <pre>
+                        <code class="language-python">
+                          model_loss, model_accuracy = genre_model.evaluate(
+                              X_test_scaled, y_test_categorical, verbose=2)
+                          print(
+                              f"Music Genre Classification:Deep Learning Model - Loss: {model_loss}, Accuracy: {model_accuracy}")
+                        </code>
+                      </pre>
+                      <div style="height:60px;width:765px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+                        <b>8/8 - 0s - loss:</b> 1.5351 - accuracy: 0.5080<br>
+                        <b>Music Genre Classification:Deep Learning Model - Loss:</b> 1.5351499319076538, <b>Accuracy:</b> 0.5080000162124634
                     </p>
                   </div>
                 </li>
@@ -868,11 +1212,12 @@
 
             <div class="row">
               <div class="col-lg-9 text-center text-lg-left">
-                <h3>Spotify API Facts</h3>
-                <p> "Data Science to me, is about bringing order to complexity"</p>
+                <h3>Tensorflow Fact Check</h3>
+                <p> <code class="language-python">TensorFlow</code> is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in ML and developers easily build and deploy ML powered applications.
+</p>
               </div>
               <div class="col-lg-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle" href="#">Contact William</a>
+                <a class="cta-btn align-middle" href="https://www.tensorflow.org">Visit Tensorflow</a>
               </div>
             </div>
           </div>
