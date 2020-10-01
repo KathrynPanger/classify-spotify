@@ -86,7 +86,7 @@
           <h2>Brief</h2>
           <p>We all know that musical genres are a way to tag and identify different types of music. But what most people don't know, is that basic genres have key defining features, that help us to identify them - and so the team's project idea was born...<br><br>The team's objective
             was to use machine learning to build its very own 'Trained Classifier', that would use machine learning to identify a given song’s musical genre. The musical genres in-scope for this project were: <b>Reggae Rock,
-            Jazz, Pop, Blues, Classical, Country, Disco, Hip-Hop.</b> </p>
+            Jazz, Pop, Blues, Classical, Country, Disco, Hip-Hop, Heavy Metal </b> </p>
         </div>
 
         <div class="row content">
@@ -221,9 +221,9 @@
 
 
           <h2>Spotify API Call</h2>
-          <p>With a track catelog spanning in excess of 30 million songs, the team quickly reached
+          <p>With a track catalog spanning in excess of 30 million songs, the team quickly reached
             concensus that Spotify's API provided the most robust and well curated universe of track information and
-            was chosen. Additionally, Spotify also provides 30-sec samples for each cateloged song, thus providing the
+            was chosen. Additionally, Spotify also provides 30-sec samples for each cataloged song, thus providing the
             team with a source of track mp3 samples to use for trainined the Trained Classifier. Each team member chosen
             2 musical genres of personal interest, before completing steps to call Spotify's API -
           </p>
@@ -249,7 +249,7 @@
             <div class="icon-box mt-5">
               <i class="bx bx-data"></i>
               <h4>Step 2 - API call</h4>
-              <p>By using the 'reccomendation' parameter, the team were able to return track information for a chosen genre,
+              <p>By using the 'recommendation' parameter, the team were able to return track information for a chosen genre,
               whilst keeping the return limit to 100, in order to avoid reaching the Spotify API call limits and avoid timeouts.</p>
               <pre>
                 <code class="language-python">
@@ -266,7 +266,7 @@
             <div class="icon-box mt-5">
               <i class="bx bx-list-plus"></i>
               <h4>Step 3 - storage & verification of returned data</h4>
-              <p>Using Pandas, each track element (e.g 'artist') was saved to a namesake list, prior to relevant track information
+              <p>Using Pandas, each track element was saved to a namesake list, prior to relevant track information
               being written to a .csv file, for reference purposes.</p>
               <pre>
                 <code class="language-python">
@@ -347,7 +347,7 @@
             <div class="icon-box mt-5 mt-lg-0">
               <i class="bx bx-layer-minus"></i>
               <h4>Dropping duplicates</h4>
-              <p>Some audio tracks appear in Spotify's catelog multiple times for various valid reasons,
+              <p>Some audio tracks appear in Spotify's catalog multiple times for various valid reasons,
               these duplicates were dropped from their respective dataframes.</p>
             </div>
             <div class="icon-box mt-5">
